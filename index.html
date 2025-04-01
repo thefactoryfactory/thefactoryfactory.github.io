@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conveyor Belt Animation</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: white;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .conveyor-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .shape {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            animation: moveAlongBelt 12s linear forwards;
+            left: 25%;
+            top: 80%;
+            opacity: 1;
+        }
+
+        .circle {
+            border-radius: 50%;
+            background-color: rgba(255, 0, 0, 0.6);
+        }
+
+        .triangle {
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            background-color: rgba(0, 0, 255, 0.6);
+        }
+
+        .square {
+            background-color: black;
+        }
+
+        .status-text {
+            position: fixed;
+            left: 50%;
+            top: 25%;
+            font-family: Arial, sans-serif;
+            font-size: 24px;
+            color: #333;
+            text-align: right;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 1.5s ease-out;
+        }
+
+        @keyframes moveAlongBelt {
+            0% {
+                left: 25%;
+                top: 80%;
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                left: 100%;
+                top: 87.5%;
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="status-text" id="statusText"></div>
+    <div class="container">
+        <img src="IMAGES/doin.JPG" alt="Conveyor Belt" class="conveyor-image">
+    </div>
+
+    <script>
+        const statusText = document.getElementById('statusText');
+        let triangleCount = 0;
+        let squareMessageIndex = 0;
+        let targetTriangleCount = Math.floor(Math.random() * 5) + 3; // Random number between 3 and 7
+        const squareMessages = [
+            "i guess we doin hyperscale reindustrialization now",
+            "i guess we doin self-organizing microfactories now",
+            "i guess we doin gigafactory as a service now",
+            "i guess we doin alien dreadnought now"
+        ];
+        
+        // Add more shapes dynamically
+        function addShape() {
+            const container = document.querySelector('.container');
+            const shape = document.createElement('div');
+            
+            if (triangleCount >= targetTriangleCount) {
+                // After random number of triangles, show black square with alternating messages
+                shape.className = 'shape square';
+                statusText.textContent = squareMessages[squareMessageIndex];
+                statusText.style.opacity = '1';
+                squareMessageIndex = (squareMessageIndex + 1) % squareMessages.length;
+                triangleCount = 0; // Reset counter
+                targetTriangleCount = Math.floor(Math.random() * 5) + 3; // Generate new random target
+            } else {
+                // Show triangle
+                shape.className = 'shape triangle';
+                statusText.style.opacity = '0';
+                triangleCount++;
+            }
+            
+            container.appendChild(shape);
+            
+            // Remove the shape after animation
+            shape.addEventListener('animationend', () => {
+                shape.remove();
+                if (shape.classList.contains('square')) {
+                    statusText.style.opacity = '0';
+                }
+            });
+        }
+
+        // Add new shapes periodically
+        setInterval(addShape, 3000);
+    </script>
+</body>
+</html> 
