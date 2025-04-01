@@ -58,7 +58,7 @@
             left: 50%;
             top: 25%;
             font-family: Arial, sans-serif;
-            font-size: 1.5em; /* Use relative units */
+            font-size: 24px;
             color: #333;
             text-align: left;
             padding: 10px;
@@ -67,7 +67,6 @@
             z-index: 1000;
             opacity: 1;
             transition: opacity 1.5s ease-out;
-            transform: translateX(-50%); /* Center horizontally */
         }
 
         @keyframes moveAlongBelt {
@@ -83,18 +82,6 @@
                 left: 100%;
                 top: 87.5%;
                 opacity: 0;
-            }
-        }
-
-        /* Media Queries for responsiveness */
-        @media (max-width: 600px) {
-            .shape {
-                width: 60px;
-                height: 60px;
-            }
-
-            .status-text {
-                font-size: 1.2em;
             }
         }
     </style>
@@ -152,4 +139,4 @@
         setInterval(addShape, 3000);
     </script>
 </body>
-</html>
+</html> 
